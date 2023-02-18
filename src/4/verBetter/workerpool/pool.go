@@ -9,11 +9,11 @@ type Pool struct {
 	runBackground chan struct{}
 }
 
-func (p *Pool) AddTask(task *Task) {
+func (p *Pool) AddTask(task *Task) { // добавление задачек
 	p.collector <- task
 }
 
-func NewPool(tasks []*Task, size int) *Pool {
+func NewPool(tasks []*Task, size int) *Pool { // конструктор бассейна
 	return &Pool{
 		Tasks:     tasks,
 		Size:      size,
@@ -29,12 +29,12 @@ func (p *Pool) RunBackground() {
 		go worker.StartBackground()
 	}
 
-	for i := range p.Tasks {
+	for i := range p.Tasks { // закидываем задачки, которые подготовили заранее
 		p.collector <- p.Tasks[i]
 	}
 
 	p.runBackground = make(chan struct{})
-	<-p.runBackground
+	<-p.runBackground // выжидаем пока все workers закончат работать
 }
 
 func (p *Pool) Stop() {
