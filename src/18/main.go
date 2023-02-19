@@ -21,7 +21,7 @@ func main() {
 }
 
 func Run1() int {
-	var wg sync.WaitGroup // Спасаем от гонки с помощью Mutex, лочим при инкрименте и разблокируем после записи
+	var wg sync.WaitGroup
 	counter := verNum1{}
 	for i := 0; i < 100; i++ {
 		wg.Add(1)
@@ -35,7 +35,7 @@ func Run1() int {
 	return counter.counter
 }
 
-func Run2() int { // Атомик выполняет атомарные операции, Атомарность обеспечивается функциями runtime_procPin / runtime_procUnpin
+func Run2() int {
 	var wg sync.WaitGroup
 	counter := verNum2{}
 	for i := 0; i < 200; i++ {
@@ -50,12 +50,12 @@ func Run2() int { // Атомик выполняет атомарные опер
 	return int(counter.counter)
 }
 
-func (v *verNum1) Increment(delta int) {
-	v.Lock()
+func (v *verNum1) Increment(delta int) { // Спасаем от гонки с помощью Mutex,
+	v.Lock() // лочим при инкрименте и разблокируем после записи
 	v.counter += delta
 	v.Unlock()
 }
 
-func (v *verNum2) Increment(delta int) {
-	atomic.AddInt32(&v.counter, int32(delta))
+func (v *verNum2) Increment(delta int) { // Атомик выполняет атомарные операции
+	atomic.AddInt32(&v.counter, int32(delta)) // Атомарность обеспечивается функциями runtime_procPin / runtime_procUnpin
 }
