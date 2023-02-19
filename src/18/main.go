@@ -27,9 +27,7 @@ func Run1() int {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			counter.Lock()
-			counter.counter++
-			counter.Unlock()
+			counter.Increment(1)
 		}()
 	}
 	wg.Wait()
@@ -44,10 +42,20 @@ func Run2() int { // Атомик выполняет атомарные опер
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			atomic.AddInt32(&counter.counter, 1)
+			counter.Increment(1)
 		}()
 	}
 	wg.Wait()
 	fmt.Println(counter.counter)
 	return int(counter.counter)
+}
+
+func (v *verNum1) Increment(delta int) {
+	v.Lock()
+	v.counter++
+	v.Unlock()
+}
+
+func (v *verNum2) Increment(delta int) {
+	atomic.AddInt32(&v.counter, 1)
 }
