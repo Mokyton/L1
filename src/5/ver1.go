@@ -28,6 +28,7 @@ func main() {
 	Run(*w)
 }
 
+// Run использую context.WithTimeout через указанное время dur ctx.Done() вернет канал прочитыва из него мы остановим generator
 func Run(n int) {
 	writer := make(chan int)
 	dur := time.Second * time.Duration(n)
@@ -37,8 +38,8 @@ func Run(n int) {
 	for {
 		select {
 		case v, ok := <-writer:
-			if !ok {
-				fmt.Println("END")
+			if !ok { // когда функция Generator завершится в ней закроется канал из которого мы читаем.
+				fmt.Println("END") // если канал закрыт мы выходим из бесконечного цикла
 				return
 			}
 			fmt.Println(v)

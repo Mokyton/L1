@@ -1,10 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func main() {
 	var v any
-
 	//v = 12
 	//v = "zxc"
 	//v = make(chan any)

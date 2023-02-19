@@ -30,7 +30,7 @@ func crossroad1(set1, set2 []any) []any { // получаем 2 множеств
 }
 
 func crossroad2(set1, set2 []any) []any { //  более безопасный вариант, но требует больше памяти и работает более медленно
-	set1 = deleteDuplicates(set1)
+	set1 = deleteDuplicates(set1) // в основном из-за проверки являются ли подваемые аргументы множеством
 	set2 = deleteDuplicates(set2)
 	total := append(set1, set2...)
 	set := make(map[any]int)

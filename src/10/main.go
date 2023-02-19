@@ -7,14 +7,14 @@ func main() {
 	Run(data)
 }
 
-func round(num float32) int {
+func round(num float32) int { // округляем
 	return int(num) / 10 * 10
 }
 
 func Run(data []float32) {
 	storage := make(map[int][]float32)
 	for i := 0; i < len(data); i++ {
-		key := round(data[i])
+		key := round(data[i]) // генерит ключ для множества группы
 		storage[key] = append(storage[key], data[i])
 	}
 	fmt.Println(storage)
