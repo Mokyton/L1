@@ -13,16 +13,16 @@ func main() {
 }
 
 func binSearch(data []int, val int) (int, error) {
-	if !sort.SliceIsSorted(data, func(i, j int) bool {
+	if !sort.SliceIsSorted(data, func(i, j int) bool { // валидация на поданные значения
 		return data[i] < data[j]
 	}) {
 		return -1, errors.New("Error: unsorted slice ")
 	}
 
-	left := 0
-	right := len(data) - 1
-	for left <= right {
-		mid := (right + left) / 2
+	left := 0              //  стандартный алгоритм из Грокаем алгоритмы
+	right := len(data) - 1 // проверяем центральный элемент если он нам походим возвращаем его индекс
+	for left <= right {    // если центральный элемент меньше ожидаемого нижняя граница поиска становится индекс цетрального элемента +1
+		mid := (right + left) / 2 // если центральный элемент больше верхняя граница поиска становится центральный индекс - 1
 		if val == data[mid] {
 			return mid, nil
 		}

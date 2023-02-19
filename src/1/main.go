@@ -33,6 +33,6 @@ func main() {
 	fmt.Println(a.test, b.test)
 	a.Hi()
 	b.Hi()
-	a.Bye()
+	a.Human.Bye()
 	b.Bye()
 }

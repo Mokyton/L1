@@ -5,9 +5,9 @@ import (
 	"sync"
 )
 
-type MapConcurrency struct {
-	storage map[any]any
-	sync.RWMutex
+type MapConcurrency struct { // за синхронизация отвечает RWMutex
+	storage      map[any]any
+	sync.RWMutex //  В данном случаии выбрал RWMutex, чтобы можно было спокойно читать в конкурентной среде
 }
 
 func main() {
@@ -32,7 +32,7 @@ func main() {
 	m.PrintMap()
 }
 
-func NewMapConcurrency() *MapConcurrency {
+func NewMapConcurrency() *MapConcurrency { // Конструктор
 	m := make(map[any]any)
 	return &MapConcurrency{storage: m}
 }

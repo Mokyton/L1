@@ -27,13 +27,14 @@ func main() {
 	Run1(*w)
 }
 
+// Run1 в этой версии все практически тоже самое, только используется собственная реализация time.After()
 func Run1(dur int) {
 	writer := make(chan int)
 	cancel := make(chan struct{})
 	fmt.Println("start")
 	go func() {
-		time.Sleep(time.Duration(dur) * time.Second)
-		cancel <- struct{}{}
+		time.Sleep(time.Duration(dur) * time.Second) // ожидаем
+		cancel <- struct{}{}                         // записываем структурка в канал и когда в generator из канала прочитаю, он выйдет из функции
 	}()
 	go Generator1(cancel, writer)
 	for {

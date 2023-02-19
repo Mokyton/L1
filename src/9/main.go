@@ -13,20 +13,20 @@ func main() {
 }
 
 func Run(data []int) {
-	var wg sync.WaitGroup
+	var wg sync.WaitGroup // способ синхронизации WaitGroup
 	wg.Add(3)
-	in := make(chan any)
-	doubleDat := make(chan any)
-	go func() {
+	in := make(chan any)        // Канал для записи чисел из слайса
+	doubleDat := make(chan any) // Канал для записи квадратов чисел
+	go func() {                 // читаем числа из слайса и записываем в канал
 		writeToChan(data, in)
 		wg.Done()
 	}()
-	go func() {
+	go func() { // читаем числа из канала in и считаем их квадрат и записываем в канал doubleDat
 		doubleVal(in, doubleDat)
 		wg.Done()
 	}()
 
-	go func() {
+	go func() { // читаем числа канала и пишем их в stdout
 		Print(doubleDat)
 		wg.Done()
 	}()
