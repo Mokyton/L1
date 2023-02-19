@@ -52,10 +52,10 @@ func Run2() int { // Атомик выполняет атомарные опер
 
 func (v *verNum1) Increment(delta int) {
 	v.Lock()
-	v.counter++
+	v.counter += delta
 	v.Unlock()
 }
 
 func (v *verNum2) Increment(delta int) {
-	atomic.AddInt32(&v.counter, 1)
+	atomic.AddInt32(&v.counter, int32(delta))
 }
